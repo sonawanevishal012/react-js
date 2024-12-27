@@ -1,0 +1,421 @@
+/* Container for the entire Word Search component */
+
+.backgroud{
+  background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+.word-search-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  /* background: rgb(229, 245, 246); */
+  
+}
+
+.word-search-container span{
+  color:red;
+}
+
+/* Controls for the words input field */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}   
+
+/* Input for entering comma-separated words */
+.controls input {
+  padding: 5px;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* Grid container with glass effect */
+.grid {
+  display: inline-block;
+  grid-template-columns: repeat(var(--grid-size), 40px); /* Dynamic grid size */
+  grid-gap: 5px; /* Space between grid cells */
+  margin-top: 20px;
+  
+  /* Glass effect background */
+  background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners for the container */
+  backdrop-filter: blur(10px); /* Apply the blur effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 15px; /* Padding around the grid */
+  touch-action: none;
+}
+.grid-row {
+  display: flex;
+}
+/* Individual grid cells */
+.grid-cell {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Light border */
+  background-color: rgba(255, 255, 255, 0.2); /* Transparent background */
+  border-radius: 5px; /* Rounded corners for individual cells */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.8); /* Darker text color */
+  touch-action: none;
+  /* Prevent text selection */
+  user-select: none;
+}
+
+/* Style for selected cells */
+.grid-cell.selected {
+  background-color: lightblue;
+  color: green; /* Make selected word green */
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+/* Style for cells that are part of a found word */
+.grid-cell.found {
+  background-color: green;
+  color: white;
+}
+.grid-cell:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* Styling for found words list */
+.found-words {
+  margin-top: 20px;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+/* List of found words */
+.found-words ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Each found word with line-through styling */
+.found-words li {
+  font-size: 16px;
+  margin-bottom: 5px;
+  text-decoration: line-through;
+}
+
+/* Hover effect for grid cells */
+.grid-cell:hover {
+  background-color: lightgray;
+  color: green; /* Make hover color green */
+}
+
+/* Win popup for thumbs up */
+.win-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100% );
+  color: red;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Button for restarting the game */
+.restart-button {
+  position: static; /* Use absolute positioning */
+  top: 20px; /* Position from the top */
+  right: 20px; /* Position from the right */
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.restart-button:hover {
+  background-color: #218838;
+}
+
+/* Animation for found words */
+@keyframes found-word-animation {
+  0% {
+    background-color: rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.7), 0 0 30px rgba(0, 255, 0, 0.5);
+    transform: scale(1.1);
+  }
+  100% {
+    background-color: rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.4);
+    transform: scale(1);
+  }
+}
+
+/* Apply animation to cells of found words */
+.grid-cell.found {
+  background-color: rgba(255, 255, 255, 0.3); /* Neutral glass effect */
+  color: black;
+  backdrop-filter: blur(5px); /* Glass effect */
+  animation: found-word-animation 1.5s ease-in-out infinite alternate;
+  border: 2px solid rgba(247, 39, 39, 0.4); /* Light green border */
+  z-index: 10; /* Ensure it's above other cells */
+}
+.timer {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #e63946;
+}
+
+
+.start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.start-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-button:hover {
+    background-color: #0056b3;
+}
+
+/* Timer and other control styles */
+.controls p {
+    font-size: 18px;
+    color: #333;
+}
+
+
+/* 
+Found words CSS
+*/
+
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.word-list .word {
+  
+  color: #333;
+  text-transform: capitalize;
+  display: inline;
+  width: 75px;
+  height: 75px;
+  margin-top: 10px;
+  margin-right: 10px;
+  
+  
+}
+
+
+.word-list .word.found{
+  text-decoration: line-through;
+  color: #218838;
+}
+
+
+
+
+/* Media queries for mobile devices (screen width less than 600px) */
+@media (max-width: 600px) {
+  .word-search-container {
+    padding: 10px;
+    font-size: 14px; /* Increase font size to make content more readable */
+  }
+
+  /* Grid styling */
+  .grid {
+    grid-template-columns: repeat(var(--grid-size), 10px); /* Larger grid cells */
+    grid-gap: 0px;
+    touch-action: none;
+  }
+
+  .grid-cell {
+    width: 5px;
+    height: 5px;
+    font-size: 5px; /* Make the font larger for better readability */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly darker background */
+    color: rgba(0, 0, 0, 0.8); /* Ensure text is dark enough to be legible */
+    user-select: none; /* Prevent text selection */
+    touch-action: none;
+  }
+
+  .grid-cell.selected {
+    background-color: #adf977; /* Change to a brighter color to highlight */
+    color: #000;
+  }
+
+  .grid-cell.found {
+    background-color: #4caf50; /* Found words should have a green background */
+    color: white;
+  }
+
+  /* Word list styling */
+  .controls h3, .controls span {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  /* Timer styling */
+  .timer {
+    font-size: 12px;
+    color: #e63946;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  /* Start and restart buttons */
+  .start-button, .restart-button {
+    font-size: 14px;
+    padding: 10px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px 0;
+  }
+
+  .start-button:hover, .restart-button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Win pop-up */
+  .win-popup {
+    font-size: 14px; /* Larger text for mobile */
+    padding: 15px;
+    /* background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100% / 0.5); */
+    color: #333;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .restart-button {
+    position: static; /* Use static position for better alignment */
+    width: auto;
+    font-size: 14px;
+  }
+  
+  .start-screen h1 {
+    font-size: 24px; /* Make the title larger for mobile */
+    margin-bottom: 20px;
+  }
+
+  .start-button {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  /* Ensuring that the words pop out visually */
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .controls span {
+    font-size: 12px;
+    color: #ff5722; /* A bright color to make it pop */
+  }
+  .grid {
+    grid-template-columns: repeat(10, 1fr); /* Reduce columns for smaller screens */
+    grid-gap: 2px; /* Reduce the gap between cells */
+    max-width: 100%;
+    max-height: 50%;
+    margin-top: 10px;
+    touch-action: none;
+  }
+
+  .grid-cell {
+    width: 20px;
+    height: 20px;
+    font-size: 10px; /* Larger text for better readability */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly darker background */
+    color: rgba(0, 0, 0, 0.8); /* Ensure text is dark enough to be legible */
+    user-select: none; /* Prevent text selection */
+    touch-action: none;
+  }
+
+  .grid-cell.selected {
+    background-color: #6b97f7; /* Highlight selected cell */
+    color: #000;
+  }
+
+  .grid-cell.found {
+    background-color: #4caf50; /* Found words should have a green background */
+    color: white;
+  }
+
+  .found-words-left{
+    font-size: 12px;
+  }
+  .word-list{
+    font-size: 12px;
+  }
+
+}
+.card {
+  width: 80%;  /* Adjust the width based on your preference */
+  max-width: 600px;  /* Set a max width to make it responsive */
+  margin: 20px auto;  /* Center the card */
+  padding: 20px;
+  border-radius: 5px;  /* Round the corners */
+  background: white;  /* Set a white background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Add a subtle shadow */
+  overflow: hidden;  /* Ensure content doesn't overflow */
+}
